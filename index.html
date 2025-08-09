@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roblox Studio — Vault</title>
+  <meta name="description" content="Notas de Obsidian sobre Roblox Studio y Lua">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+</head>
+<body>
+<div class="app">
+  <nav class="sidebar">
+    <div class="brand">Roblox Studio — Vault</div>
+    <div class="search">
+      <input id="search" type="search" placeholder="Buscar notas...">
+      <button id="clear">✖</button>
+    </div>
+    <div id="folders"></div>
+  </nav>
+  <main class="content">
+    <header>
+      <h1 id="title">Selecciona una nota</h1>
+    </header>
+    <section id="article"></section>
+    <aside id="toc"></aside>
+  </main>
+</div>
+<script>const NOTES = {
+  "Roblox Studio/2) LUA/2.0) Introducción": [
+    {
+      "title": "2.0.1) Introducción",
+      "content": "Esta documentación son unos apuntes tomados para consultar y entender de mejor manera el lenguaje de programación de Lua orientado a roblox, es decir, algunas de las facilidades que nos ofrece Luau (Lua orientado a roblox), como los operadores de asignación, no están en Lua convencional, por lo que estos apuntes, de manera general, no serán exactos para aprender el lenguaje base.\n\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.1) Sintaxis Básica/2.1.1) Variables": [
+    {
+      "title": "2.1.1.1) Uso de las variables",
+      "content": "Para declarar una variable en Lua, puedes hacerlo de las siguientes maneras:\n\n``` Lua\n-- Puedes declarar una variable y asignarle un valor inmediatamente\nlocal nombreDeLaVariable = \"Valor\"\n\n--También puedes declarar una variable sin asignarle un valor, así:\nlocal nombreDeOtraVariable --En este caso, la variable existe pero su valor es nil por defecto.\n```\n\nLa palabra reservada \"local\" se usa para indicar que la variable tiene un alcance local, es decir, que solo puede ser usada dentro del bloque de código donde fue declarada, como una función o un bucle.\n\nSi declaras una variable sin la palabra \"local\", será una variable global, lo cual generalmente no es recomendable porque puede provocar conflictos entre diferentes partes del programa.\n\n``` Lua\nnombreDeLaVariable = \"Valor\" -- Esto será una variable global, accesible desde todos los scripts del programa\n```\n"
+    },
+    {
+      "title": "2.1.1.2) Tipo de variables",
+      "content": "Realmente, en Lua no se tipan las variables, pero es importante saber que tienes a tu disposición variables de tipo:\n\n- String: El tipo más básico de todos, almacena cadenas de texto:\n\n``` Lua\nlocal textoSaludo = \"Hola!\"\n```\n\n- Number: Almacena valores de tipo numérico, en Lua, no se distinguen enteros de floats, por lo que un mismo tipo almacenará tanto valores enteros como decimales.\n\n``` Lua\nlocal numero = 10\n```\n\n- Boolean: Almacena valores en un bit, es decir, solo puede tener dos estados (verdadero y falso).\n\n``` Lua\nlocal boolVerdadero = true\nlocal boolFalso = false\n```\n\n- Array: Los arrays actúan como una lista donde puedes almacenar distintos valores de distintos tipos.\n\n``` Lua\nlocal array = {1, \"patata\", false}\n```\n\n- Diccionarios: Los diccionarios son especies de array, pero se basan en la fórmula clave-valor, lo que te permite darle un valor a cada clave al declarar el diccionario. Todos los elementos deben estar separados por coma \",\" o por punto y coma \";\".\n\n``` Lua\nlocal dictionary = {\n\tnombre = \"Mario\",\n\tedad = 30,\n\thermano = \"Luigi\"\n}\n```\n"
+    },
+    {
+      "title": "2.1.1.3) Acceder a las variables",
+      "content": "Acceder a las variables en Lua es bastante sencillo en la mayoría de casos, en estos ejemplos lo evaluaremos con prints, pero podrías acceder de igual manera para utilizar los valores en bucles o funciones.\n\n``` Lua\nlocal string = \"Hola\"\nprint(string) -- Devolverá \"Hola\"\n\nlocal number = 10\nprint(number) -- Devolverá 10\n\nlocal bool = true\nprint(bool) -- Devolverá true\n\nlocal array = {1, \"adios\", true}\nprint(array[1]) -- Devolverá el primer elemento de la lista\nprint(array[2]) -- Devolverá el segundo elemento de la lista\n-- ...\n\nlocal dictionary = {\n\tnombre = \"Mario\",\n\tedad = 10\n}\nprint(dictionary.nombre) -- Devolverá \"Mario\"\nprint(dictionary.edad) -- Devolverá 10\n```\n\nEn Lua, los arrays comienzan con la posición número 1 en vez de la posición número 0 vista en otros lenguajes de programación como python.\n"
+    },
+    {
+      "title": "2.1.1.4) Concatenación de strings",
+      "content": "La concatenación de strings es una práctica muy común que consiste en unir dos cadenas de textos, ya sea tanto para almacenarlos en una variable como para usarlo de manera puntual al imprimir un texto por consola.\n\nPara concatenar no hay un símbolo en específico como en otros lenguajes, en este caso usamos doble punto (\"..\").\n\n``` Lua\nlocal miVariableString1 = \"hola\"\nlocal miVariableString2 = \"mundo!\"\n\nprint(miVariableString1 .. \", \" .. miVariableString2)\n-- Esto imprimirá:\n-- hola, mundo!\n```\n\nEste ejemplo es perfecto para comprender la concatenación ya que se dan ambos casos, se inserta texto guardado en variables y se añade manualmente (en este caso para añadir la coma y un espacio, ya que si no lo añadimos se imprimiría todo junto).\n\n``` Lua\nlocal miVariableString1 = \"hola\"\nlocal miVariableString2 = \"mundo!\"\n\nprint(miVariableString1 .. miVariableString2)\n-- Esto imprimirá:\n-- holamundo!\n```\n"
+    },
+    {
+      "title": "2.1.1.5) Acceso entre scripts",
+      "content": "Nota: Esto es algo avanzado si estás empezando, como recomendación, continúa hasta que comprendas el funcionamiento de las funciones, ya que habrás desarrollado la lógica principal para entender la sintaxis de Lua y te resultará más fácil. Continúa por: [[2.1.2.1) Operadores aritméticos]].\n\nCabe mencionar que, si se mencionan cosas que no entiendes de momento (como un ModuleScript o LocalScript), son tipos de objetos de roblox studio, que se explicarán más adelante.\n\nEl acceso a variables entre scripts es simple pero puede resultar confuso al principio, aunque es bastante similar al punto [[2.2.4.1) Acceso entre scripts]].\n\nPongamos el caso de que tenemos el siguiente script (debe ser un ModuleScript):\n\n``` Lua\nlocal modulo = {}\n\nmodulo.vidaDelEnemigo = 10\n\nreturn modulo\n```\n\nY este otro (un Script o LocalScript):\n\n``` Lua\nlocal variablesGlobales = require(\"Obtener ruta del moduleScript\")\n\nvariablesGlobales.vidaDelEnemigo -= 2\n```\n\nEsto es útil sobre todo para poder registrar una acción de un usuario y reflejarla para todos los jugadores; en este caso sería bajar la vida del enemigo al golpearlo.\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.1) Sintaxis Básica/2.1.2) Operadores": [
+    {
+      "title": "2.1.2.1) Operadores aritméticos",
+      "content": "Los operadores aritméticos son los que se usan comúnmente en las matemáticas convencionales:\n\n- Suma: +\n- Resta: -\n- Multiplicación: *\n- División: /\n- Potenciación: ^\n- Módulo (resto de una división): %\n\n``` Lua\nprint(10 + 5) -- Devolverá 15\nprint(10 - 5) -- Devolverá 5\nprint(10 * 5) -- Devolverá 50\nprint(10 / 5) -- Devolverá 2\nprint(10 ^ 5) -- Devolverá 100.000\nprint(10 % 5) -- Devolverá 0\n```\n"
+    },
+    {
+      "title": "2.1.2.2) Operadores de asignación",
+      "content": "Nota: Antes de aprender como funcionan los operadores de asignación, es recomendable saber cuales son los operadores aritméticos, ya que en su definición, son casos de uso acortados de estos mismos: [[2.1.2.1) Operadores aritméticos]]\n\nEn Lua, como en la mayoría de lenguajes, existen formas abreviadas de asignar valores a las variables sin tener que citarlas en vano.\n\n- Suma: +=\n- Resta: -=\n- Multiplicación: *=\n- División: /=\n- Potenciación: ^=\n- Módulo: %=\n\nPor ejemplo:\n\n``` Lua\nlocal numero1 = 10\nnumero1 += 5 -- La variable vale 15\n\nlocal numero2 = 10\nnumero2 -= 5 -- La variable vale 5\n\nlocal numero3 = 10\nnumero3 *= 5 -- La variable vale 50\n\nlocal numero4 = 10\nnumero4 /= 5 -- La variable vale 2\n\nlocal numero5 = 10\nnumero5 ^= 5 -- La variable vale 100.000\n\nlocal numero6 = 10\nnumero6 %= 5 -- La variable vale 0\n```\n\nEsto evita:\n\n``` Lua\nlocal numero1 = 10\nnumero1 = numero1 + 5\n\nlocal numero2 = 10\nnumero2 = numero2 - 5\n\nlocal numero3 = 10\nnumero3 = numero3 * 5\n\n-- ...\n```\n"
+    },
+    {
+      "title": "2.1.2.3) Operadores de comparación",
+      "content": "Los operadores de comparación, como su nombre indican, sirven para comparar valores, ya sea de variables o impuestos, y estos devolverán valores booleanos.\n\n- Igual a: ==\n- Distinto de: ~=\n- Mayor que: >\n- Menor que: <\n- Mayor o igual que: >=\n- Menor o igual que: <=\n\n``` Lua\nlocal numero1 = 10\nlocal numero2 =  9\n\nprint(numero1 == numero2) -- Devolverá falso, ya que no se cumple\nprint(numero1 ~= numero2) -- Devolverá verdadero\nprint(numero1 > numero2) -- Devolverá verdadero\nprint(numero1 < numero2) -- Devolverá falso\nprint(numero1 >= numero2) -- Devolverá verdadero\nprint(numero1 <= numero2) -- Devolverá falso\n```\n\n|Operador|Significado|Ejemplo|Resultado|\n|---|---|---|---|\n|`==`|Igual a|`10 == 9`|`false`|\n|`~=`|Distinto de|`10 ~= 9`|`true`|\n|`>`|Mayor que|`10 > 9`|`true`|\n|`<`|Menor que|`10 < 9`|`false`|\n|`>=`|Mayor o igual que|`10 >= 9`|`true`|\n|`<=`|Menor o igual que|`10 <= 9`|`false`|\n"
+    },
+    {
+      "title": "2.1.2.4) Operadores lógicos",
+      "content": "Como todo lenguaje de programación, Lua cuanta con varios operadores lógicos que sirven para comparar valores (tanto de variables como impuestos manualmente), estos solo devolverán valores booleanos (verdadero o falso).\n\n- Y: and\n- O: or\n- No: not\n\n``` Lua\nlocal estaVariableEsVerdadera = true\nlocal estaVariableEsFalsa = false\n\nprint(estaVariableEsVerdadera and estaVariableEsFalsa) -- Devolverá falso ya que las dos no son verdaderas\nprint(estaVariableEsVerdadera or estaVariableEsFalsa) -- Devolverá verdadero ya que al menos una de las dos es verdadera\nprint(not estaVariableEsVerdadera) -- Devolverá falso ya que \"not\" invierte el valor, por lo tanto\nprint(not estaVariableEsFalsa) -- Devolverá verdadero\n```\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.1) Sintaxis Básica/2.1.3) Condicionales": [
+    {
+      "title": "2.1.3.1) If",
+      "content": "El if es una estructura condicional que normalmente se usa para evaluar si un valor es verdadero o falso, en caso de ser verdadero, se ejecutará el bloque de código que esté dentro, mientras que en el caso contrario, no se ejecutará nada de lo que esté en el interior.\n\n``` Lua\nlocal miVariableVerdadera = true\n\nif miVariableVerdadera == true then\n\tprint(\"La variable es verdadera\")\nend\n```\n\nTambién puede ser usado con los operadores de comparación y operadores lógicos:\n\n``` Lua\nlocal miVariableMayor = 10\nlocal miVariableMenor = 9\n\nif miVariableMayor > miVariableMenor then\n\tprint(miVariableMayor .. \" es mayor que \" .. miVariableMenor)\nend\n```\n"
+    },
+    {
+      "title": "2.1.3.2) Elseif",
+      "content": "Elseif se utiliza para evaluar más casos ligados a otro condicional \"if\", por lo que elseif no podrá existir si no existe un if previo al cual asociarlo.\n\n``` Lua\nlocal miVariableVerdadera = true\n\nif not miVariableVerdadera then\n\tprint(\"La variable no es verdadera\")\nelseif miVariableVerdadera then\n\tprint(\"La variable es verdadera\")\nend\n```\n\nNota: el \"end\" se debe poner al final de la estructura, no de cada instrucción condicional."
+    },
+    {
+      "title": "2.1.3.3) Else",
+      "content": "Else, al igual que elseif, solo se podrá utilizar cuando este esté ligado a un condicional \"if\", y este se ejecutará cuando ninguna de las condiciones anteriores se cumpla.\n\n``` Lua\nlocal miVariableMayor = 10\nlocal miVariableMenor = 9\n\nif miVariableMayor < miVariableMenor then\n\tprint(miVariableMenor .. \" es mayor que \" .. miVariableMayor)\nelseif miVariableMayor == miVariableMenor then\n\tprint(miVariableMayor .. \" y \" .. miVariableMenor .. \" son iguales\")\nelse\n\tprint(miVariableMayor .. \" es mayor que \" .. miVariableMenor)\nend\n```\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.1) Sintaxis Básica/2.1.4) Bucles": [
+    {
+      "title": "2.1.4.1) Bucle while",
+      "content": "Un bucle while se estará ejecutando continuamente hasta que la condición que comprueba ya no se cumpla o se interrumpa manualmente con un \"break\".\n\n``` Lua\nlocal numeroAComprobar = 0\n\nwhile numeroAComprobar < 10 do\n\tnumeroAComprobar += 1\n\t\n\tif numeroAComprobar == 7 then\n\t\tbreak\n\tend\n\t\n\tprint(numeroAComprobar) -- Imprimirá los números del 1 al 6, ya que cuando sea igual a 7 este saldrá del bucle\nend\n```\n"
+    },
+    {
+      "title": "2.1.4.2) Bucle for",
+      "content": "Los bucles for son bucles que se repiten una cantidad limitada de veces.\n\n``` Lua\nfor i = 1, 5 do\n\tprint(i)\nend\n-- Esto imprimirá la lista de números del 1 al 5, ya que cada intervalo, el iterador (i) aumentará en 1 su valor.\n```\n\nAunque esto es un ejemplo básico del uso de for, también puedes indicar un paso (el valor que se añade al iterador tras cada iteración):\n\n``` Lua\nfor i = 1, 10, 2 do\n\tprint(i)\nend\n-- Esto imprimirá solo los números impares, ya que el iterador aumentará en 2 (el número de paso especificado) en vez de en 1:\n\n-- 1\n-- 3\n-- 5\n-- ...\n\n-- Podemos adaptar esto a nuestras necesidades cambiando el paso:\nfor i = 1, 10, 3 do\n\tprint(i)\nend\n-- 1\n-- 4\n-- 7\n-- ...\n```\n"
+    },
+    {
+      "title": "2.1.4.3) Bucle for-in",
+      "content": "El bucle for-in es, en conceptos básicos, igual al for pero con una estructura diferente, ya que este se utiliza para recorrer tablas (arrays y diccionarios).\n\n``` Lua\nlocal miArray = {\"manzana\", \"pera\", \"sandía\", \"kiwi\", \"cereza\"}\n\nfor i, fruta in ipairs(miArray) do\n\tprint(fruta)\nend\n-- Esto imprimirá:\n-- manzana\n-- pera\n-- sandía\n-- kiwi\n-- cereza\n\n-- También puedes usar el índice para numerarlas:\nfor i, fruta in ipairs(miArray) do\n\tprint(i .. \": \" .. fruta)\nend\n--Esto imprimirá:\n-- 1: manzana\n-- 2: pera\n-- 3: sandía\n-- 4: kiwi\n-- 5: cereza\n```\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.1) Sintaxis Básica/2.1.5) Funciones": [
+    {
+      "title": "2.1.5.1) Declarar funciones",
+      "content": "En lua, declarar funciones es muy simple, aunque se pueden hacer de dos formas diferentes:\n\n``` Lua\nfunction saludar()\n\tprint(\"hola\")\nend\n-- Esta función se declara en el ámbito global, por lo que puede ser accedida desde otros scripts (si están en el mismo entorno)\n\nlocal function saludar()\n\tprint(\"hola\")\nend\n-- Esta función se declara en el ámbito local, por lo que solo puede ser utilizada dentro del mismo script o bloque donde fue definida.\n```\n\nEs importante aclarar que las variables declaradas dentro de las funciones pertenecen exclusivamente a dichas funciones, por lo que un código como el siguiente no daría ningún problema:\n\n``` Lua\nlocal function saludar()\n\tlocal textoSaludo = \"Hola!\"\nend\n\nlocal textoSaludo = \"hola\"\n```\n\nDe normal, si declaramos dos variables con el mismo nombre nos daría un error, pero al no estar en el mismo ámbito podemos reutilizar el nombre, lo cual no es recomendable ya que es más difícil de leer y es una mala práctica de programación.\n"
+    },
+    {
+      "title": "2.1.5.2) Parámetros",
+      "content": "Los parámetros son variables internas a nivel de la propia función, es decir, que no se pueden usar en otras partes del código. A estas se les dan un valor a través de los parámetros.\n\n``` Lua\nlocal miVariableString = \"Hola!\"\n\nlocal function saludo(tipoSaludo)\n\tprint(tipoSaludo)\nend\n\nsaludo(miVariableString)\n-- Esto ejecutará la función con el parámetro \"miVariableString\", que es una variable local que ya se ha declarado cuyo valor es \"Hola!\" \n```\n\nAl ejecutar la función, el valor de \"tipoSaludo\" será el del parámetro que le pasemos a la función a la hora de hacer la llamada, en este caso una variable, pero también se podría hacer de la siguiente manera:\n\n``` Lua\nlocal function saludo(tipoSaludo)\n\tprint(tipoSaludo)\nend\n\nsaludo(\"Hola!\")\n-- Esto le dará el valor \"Hola!\" a laa variable \"tipoSaludo\"\n```\n"
+    },
+    {
+      "title": "2.1.5.3) Valores de retorno",
+      "content": "Para entender porqué los ejemplos se realizan con funciones locales, es recomendable que eches un vistazo a la lección 2.1.5.1: [[2.1.5.1) Declarar funciones]]\n\nAl usar funciones, podemos hacer que estas funciones devuelvan un valor, este valor puede ser nulo (usado comúnmente para salir de las funciones antes de tiempo).\n\n``` Lua\nlocal function saludo()\n\tlocal textoSaludo = \"Hola!\"\n\treturn textoSaludo\nend\n\nsaludo()\n```\n\nEste código realmente no sacará nada por consola porque solo nos está devolviendo un valor con el cual no hacemos nada, para ello deberíamos de imprimirlo de la siguiente manera:\n\n``` Lua\nprint(saludo())\n```\n\nAsí, como la función \"saludo()\" se ejecuta dentro del \"print()\", esta devuelve un valor y dicho valor se muestra por consola.\n"
+    },
+    {
+      "title": "2.1.5.4) Funciones como variables",
+      "content": "Para entender como funcionan las funciones como variables primero tenemos que saber con cierta exactitud como funcionan los valores de retorno: [[2.1.5.3) Valores de retorno]]\n\nUna vez tenemos esto claro, debemos de saber que las funciones las cuales devuelven algún tipo de dato se pueden usar como variables de la siguiente manera:\n\n``` Lua\nlocal function saludo()\n\tlocal textoSaludo = \"Hola!\"\n\treturn textoSaludo\nend\n\nlocal textoSaludoFinal = saludo()\nprint(textoSaludoFinal)\n-- Esto imprimirá \"Hola!\" ya que el valor devuelto por la función se almacena en la variable \"textoSaludoFinal\"\n```\n"
+    },
+    {
+      "title": "2.1.5.5) Funciones anónimas",
+      "content": "Para un mejor entendimiento de este tipo de funciones es muy recomendable que tengas claro el apartado anterior: [[2.1.5.4) Funciones como variables]]\n\nLas funciones anónimas son aquellas que se declaran como un valor de variable, es decir, estas no es que se declaren y después se llamen para asignar el valor a una variable, sino que se declaran junto a la variable de la siguiente manera:\n\n``` Lua\n-- Función anónima asignada a una variable\nlocal miVariable = function()\n\treturn \"Hola!\"\nend\n\nprint(miVariable())  -- Llama a la función y muestra \"Hola!\"\n```\n\nEsto puede no parecer tan útil al principio, pero en un caso más complejo donde se calcule una puntuación, o una operación lógica compleja que indique si el jugador tiene acceso a x zona:\n\n``` Lua\n-- Variables ejemplo para la condición (deberían estar definidas en tu contexto)\nlocal tieneLaLLave = true\nlocal esClaseMago = true\nlocal nivel = 55\n\n-- Función anónima que devuelve true o false según las condiciones\nlocal tieneAccesoAZona = function()\n\tlocal tieneAcceso\n\t\n\tif tieneLaLLave and esClaseMago and nivel >= 50 then\n\t\ttieneAcceso = true\n\telse\n\t\ttieneAcceso = false\n\tend\n\t\n\treturn tieneAcceso\nend\n\nprint(tieneAccesoAZona()) \n-- Imprime 'true' si se cumplen todas las condiciones, 'false' en caso contrario\n```\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.2) LUA orientado a roblox/2.2.1) Funciones integradas": [
+    {
+      "title": "2.2.1.1) Que son las funciones integradas",
+      "content": "Las funciones integradas (o funciones nativas) son aquellas que ya vienen incluidas en el motor de Roblox. Están diseñadas para facilitar el desarrollo, son globales y permiten realizar tareas comunes sin tener que escribir todo el código desde cero.\n\nEn otras palabras, son funciones predefinidas listas para usar, lo que nos ahorra tiempo y esfuerzo.\n\nAlgunos ejemplos comunes son:\n\n``` Lua\nprint() -- Imprime algo por pantalla\n\nwait(2) -- Pausa la ejecución del código durante 2 segundos\n\nmath.random(1, 10) -- Devuelve un número aleatorio del 1 al 10\n\nworkspace:FindFirstChild(\"NombreDelObjeto\") -- Busca el primer hijo con ese nombre\n```\n"
+    },
+    {
+      "title": "2.2.1.2) Uso de las funciones integradas",
+      "content": "Usar funciones integradas es bastante sencillo. Se pueden invocar de la siguiente manera:\n\n``` Lua\nlocal objeto = script.Parent:FindFirstChild(\"otroObjeto\")\n```\n\nEn este ejemplo, `FindFirstChild` es una función integrada que busca un hijo llamado `\"otroObjeto\"` dentro del `Parent` del script. Si lo encuentra, se guarda en la variable `objeto`.\n\nSin embargo, **no todas las funciones integradas operan sobre objetos**. Algunas están disponibles de forma global:\n\n``` Lua\nprint(\"hola!\")\n\nwait(10)\n\n-- ...\n```\n\nLo importante aquí no es qué se guarda, sino cómo se usan las funciones integradas:\n\n- Se llaman con `:` cuando operan sobre un objeto.\n\n- Aceptan parámetros que definen su comportamiento (como el nombre del hijo a buscar).\n"
+    },
+    {
+      "title": "2.2.1.3) Funciones integradas específicas",
+      "content": "Hay algunas funciones integradas que se usan de una manera mucho más frecuente que otras, entre otras están:\n\n---\n\n`print()`\n\n``` Lua\nprint(\"Hola!\")\n```\n\n- Imprime texto o valores por consola, usado frecuentemente para depurar.\n\n---\n\n`wait()`\n\n``` Lua\nwait(5)\n```\n\n- Pausa la ejecución únicamente del script donde se ejecuta durante la cantidad de segundos indicada (en este caso 5).\n\n---\n\n`math.random`\n\n``` Lua\nlocal numeroAleatorio = math.random(1, 5)\n```\n\n- Genera un número aleatorio entre el primer y segundo parámetro, ambos extremos incluidos.\n\n---\n\n`FindFirstChild()`\n\n``` Lua\nlocal objeto = workspace:FindFirstChild(\"NombreObjeto\")\n```\n\n- Esta estructura ya se ha visto en lecciones anteriores, busca el primer hijo del objeto con ese nombre, y retorna `nil` si no existe o todavía no se ha creado\n\n---\n\n`require`\n\n``` Lua\nlocal funciones = require(rutaAUnModuleScript)\n```\n\n- Permite usar las funciones y variables que retorna el `ModuleScript`.\n\n---\n\n`FindFirstAncestorOfClass()`\n\n``` Lua\nlocal primerModelAncestro = script.Parent:FindFirstAncestorOfClass(\"Model\")\n```\n\n- Busca entre los ancestros (padre, abuelo, bisabuelo, etc.) el primer objeto cuya clase sea `\"Model\"`.\n\n- Un `Model` es un contenedor que agrupa varios objetos relacionados, como un conjunto de partes o scripts dentro del juego.\n\n---\n\n`:WaitForChild()`\n\n``` Lua\nlocal moneda = workspace:WaitForChild(\"Moneda\")\n```\n\n- Espera hasta que exista un hijo con el nombre `\"Moneda\"` dentro de `workspace`.\n\n- Si el hijo no existe aún, el script se detiene aquí hasta que aparezca.\n\n- **Precaución:** Si el nombre está mal escrito, el objeto no es hijo de `workspace` o nunca llega a crearse, la función se quedará esperando indefinidamente, lo que puede causar que el script se bloquee.\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.2) LUA orientado a roblox/2.2.2) Navegar entre elementos": [
+    {
+      "title": "2.2.2.1) Navegar entre elementos",
+      "content": "A partir de este punto, es importante tener clara la sintaxis básica de Lua, ya que la usaremos constantemente.\n\nNavegar entre elementos en Roblox es bastante sencillo. La mayoría de las veces solo necesitaremos acceder a padres, hijos y ramas del objeto `game`:\n\n``` Lua\nlocal padreDeEsteScript = script.Parent\nlocal hijoDeEsteScript = script:FindFirstChild(\"objetoHijo\")\nlocal ramaWorkspace = game.Workspace\n```\n\nEstos tres ejemplos muestran lo siguiente:\n\n- `padreDeEsteScript` guardará el objeto que contiene al script, es decir, su padre.\n\n- `hijoDeEsteScript` buscará y guardará el primer objeto hijo del script que se llame `\"objetoHijo\"`, ya que siempre puede pasar que hayan dos objetos que se llamen igual.\n\n- `ramaWorkspace` accede a la rama nativa del juego llamada `Workspace`, utilizando `game.Workspace` en lugar de navegar desde `script.Parent`.\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.2) LUA orientado a roblox/2.2.3) Acceso a propiedades": [
+    {
+      "title": "2.2.3.1) Acceso a propiedades",
+      "content": "El acceso a propiedades se refiere a obtener o modificar las propiedades de un objeto específico. En Lua, esto se hace accediendo al objeto primero:\n\n``` Lua\nlocal objetoAModificar = script.Parent\n```\n\nEn este caso, `script.Parent` hace referencia al objeto que contiene el script, ya que ese objeto es su \"padre\" en la jerarquía.\n\nPara modificar una propiedad, se accede a ella usando el punto (`.`):\n\n``` Lua\nobjetoAModificar.Transparency = 1\nobjetoAModificar.Color = Color3.fromRGB(0, 0, 0)\n-- ...\n```\n\nEsto cambiará la transparencia y el color del objeto guardado en la variable `objetoAModificar`, haciéndolo completamente invisible y cambiando su color a negro.\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.2) LUA orientado a roblox/2.2.4) Acceso entre scripts": [
+    {
+      "title": "2.2.4.1) Acceso entre scripts",
+      "content": "El acceso entre scripts requiere una sintaxis un poco más avanzada, aunque no necesariamente más complicada.\n\nPara que una función sea accesible desde otro script, es necesario definirla dentro de un **`ModuleScript`**, que puede devolver funciones y datos mediante `return`.\n\nPongamos que tenemos este script (deber ser de tipo moduleScript):\n\n``` Lua\nlocal modulo = {}\n\nfunction modulo.saludo()\n\tprint(\"hola\")\nend\n-- Añade la función a la variable \"modulo\" con modulo.nombreFunción\n\nreturn modulo\n-- Retorna todo lo que está almacenado en la variable \"modulo\"\n```\n\nO este otro:\n\n``` Lua\nlocal function saludar()\n\tprint(\"buenas tardes\")\nend\n-- Se declara una función local\n\nreturn {\n\totroSaludo = saludar, -- Se guarda la función en la variable \"otroSaludo\" y se retorna, la coma es un separador.\n\tsaludo = function()\n\t\tprint(\"hola\")\n\tend\n}\n```\n\nPara usar las funciones de un `ModuleScript` desde otro script, se usa `require`:\n\n``` Lua\nlocal funciones = require(rutaDelModuleScript)\n\nfunciones.saludo()\n-- Ejecuta la función \"saludo\" del módulo\n```\n\nQuizá hayan dudas sobre cuándo debe de usarse cada manera, lo recomendable es que:\n\n- Usar una variable como módulo (por ejemplo, `local modulo = {}`) es recomendable cuando tienes varias funciones que retornar. Es más ordenado y escalable.\n\n- Usar `return { ... }` directamente es válido cuando solo necesitas retornar unas pocas funciones, aunque puede volverse confuso en proyectos grandes.\n\nAmbos enfoques funcionan, pero la clave es mantener una estructura clara y coherente.\n\n---\n\nUna vez explicado como se puede acceder a funciones desde otro script, resultará más fácil aprender a acceder a variables.\n\nPongamos el caso de que tenemos el siguiente script (debe ser un ModuleScript):\n\n``` Lua\nlocal modulo = {}\n\nmodulo.vidaDelEnemigo = 10\n\nreturn modulo\n```\n\nY este otro (un Script o LocalScript):\n\n``` Lua\nlocal variablesGlobales = require(\"Obtener ruta del moduleScript\")\n\nvariablesGlobales.vidaDelEnemigo -= 2\n```\n\nEsto es útil sobre todo para poder registrar una acción de un usuario y reflejarla para todos los jugadores; en este caso sería bajar la vida del enemigo al golpearlo.\n"
+    }
+  ],
+  "Roblox Studio/2) LUA/2.2) LUA orientado a roblox/2.2.5) Señales": [
+    {
+      "title": "2.2.5.1) Qué son las señales",
+      "content": ""
+    }
+  ],
+  "Roblox Studio/3) Data Model/3.0) Introducción": [
+    {
+      "title": "3.0.1) Introducción",
+      "content": ""
+    }
+  ],
+  "Roblox Studio/4) Arquitectura Cliente-Servidor/4.1) Tipos de script": [
+    {
+      "title": "4.1.1) LocalScript",
+      "content": "Los `LocalScripts` en Roblox son scripts que se ejecutan únicamente en el cliente, lo cual es esencial para manejar aspectos visuales o interactivos que solo afectan al jugador local. También es una buena práctica para proteger ciertas lógicas del juego que no deberían estar expuestas al servidor, ya que ejecutar todo en el servidor puede abrir la puerta a exploits si no se gestiona bien.\n\nPero no basta con simplemente crear un `LocalScript`; para que realmente se ejecute, hay que colocarlo en un lugar válido del **DataModel**, es decir, en una de las siguientes carpetas o ubicaciones que están diseñadas para funcionar en el cliente:\n\n---\n\n**`StarterPlayerScripts`**\n\n- Su contenido se clona automáticamente en `PlayerScripts` cuando el jugador entra al juego, por lo que se ejecuta en cuanto el jugador accede a la experiencia.\n\n- Es un buen lugar para scripts que gestionan lógica general del cliente, como configuraciones, entrada del usuario, controladores de cámara personalizados, etc.\n\n**`StarterCharacterScripts`**\n\n- Todo lo que coloques aquí se clona dentro del personaje (`Character`) del jugador cada vez que reaparece, incluyendo la primera vez que entra en el mundo.\n\n- Útil si necesitas scripts que dependan directamente del personaje, como animaciones, control de físicas o estados especiales.\n\n**`PlayerGui`**\n\n- Aquí puedes colocar interfaces (`ScreenGui`, `TextLabel`, botones, etc.) que solo afectan al jugador actual.\n\n- Los `LocalScripts` en esta carpeta sí se ejecutan, siempre que el objeto esté bajo un jugador.\n\n- También se puede acceder dinámicamente para modificar o insertar interfaces desde el servidor o desde `ReplicatedStorage`.\n\n**`StarterPack`**\n\n- Los `LocalScripts` no se ejecutan si están directamente en esta carpeta.\n\n- Pero si los colocas dentro de un `Tool` (o un `HopperBin`), entonces sí se ejecutan cuando ese objeto llega al `Backpack` del jugador.\n\n- Es ideal para scripts que controlan herramientas, armas o cualquier objeto interactivo que el jugador pueda equipar.\n\n**`ReplicatedFirst`**\n\n- Los `LocalScripts` aquí se ejecutan antes que cualquier otro en el cliente.\n\n- Se suele usar para mostrar pantallas de carga o realizar configuraciones visuales rápidas antes de cargar el juego principal.\n\n- Hay que tener cuidado de no hacer demasiado trabajo aquí, ya que puede bloquear la carga si no se gestiona correctamente.\n\n**`PlayerScripts`**\n\n- Esta carpeta existe bajo cada jugador local.\n\n- No puedes editarla directamente desde Studio, pero puedes mover `LocalScripts` ahí en tiempo de ejecución desde el servidor o desde `ReplicatedStorage`.\n\n- Suele usarse para insertar lógica personalizada para un jugador cuando ocurre una condición específica.\n"
+    },
+    {
+      "title": "4.1.2) Script",
+      "content": "Los `Script` en Roblox (también llamados scripts normales) se ejecutan en el servidor. Esto significa que su lógica solo corre en el lado del servidor, sin acceso directo al jugador local (`LocalPlayer`) ni a elementos exclusivos del cliente como `PlayerGui`.\n\nPara que un `Script` se ejecute correctamente, debe estar en una ubicación válida del **DataModel** donde se permita la ejecución en el servidor. A continuación se detallan esas ubicaciones:\n\n---\n\n**`ServerScriptService`**\n\n- Es el lugar principal para scripts de servidor.\n\n- No es accesible desde el cliente, lo que lo hace ideal para lógica sensible como almacenamiento de datos, validación de inputs o gestión de sistemas de juego.\n\n**`Workspace`**\n\n- Los scripts colocados aquí sí se ejecutan, tanto si están en la raíz como dentro de objetos que estén en el mundo.\n\n- Útil para scripts que interactúan con partes físicas del juego, como mecanismos, enemigos o zonas de daño.\n\n**`StarterCharacterScripts`**\n\n- El contenido de esta carpeta se clona dentro del personaje del jugador (`Character`) cada vez que reaparece.\n\n- Los `Script` normales también se ejecutan desde aquí, por lo que puede usarse para lógica relacionada con el personaje que deba correr en el servidor.\n\n**`StarterPack` (dentro de un `Tool`)**\n\n- Los `Script` no se ejecutan directamente en `StarterPack`, pero sí se ejecutan si están dentro de un `Tool` que el jugador reciba en su `Backpack`.\n\n- Sirve para lógica del servidor relacionada con herramientas, como daños, activadores o validaciones.\n\n**`ReplicatedFirst`**\n\n- Aunque su uso principal es para `LocalScripts`, también se permite ejecutar `Script` normales aquí.\n\n- No es el lugar más recomendado para lógica de servidor, pero puede ser útil en casos muy específicos.\n"
+    }
+  ],
+  "Roblox Studio/4) Arquitectura Cliente-Servidor/4.2) Conexiones entre cliente y servidor/4.2.1) Restricciones": [
+    {
+      "title": "4.2.1.1) RemoteEvent",
+      "content": "Los `RemoteEvents` son nodos que puedes crear dentro del `Data Model` de Roblox, estos deben ser creados dentro de `Replicated Storage` y son señales unidireccionales intermediarias entre el cliente y el servidor.\n\nUn ejemplo sería el siguiente:\n\n![[Pasted image 20250531020628.png]]\n\nDonde `CheckpointTriggeredEvent` sería la señal de que un jugador ha activado un checkpoint y `DeathZoneTriggeredEvent` sería la señal de que el jugador ha tocado una zona de muerte.\n"
+    },
+    {
+      "title": "4.2.1.2) RemoteFunction",
+      "content": ""
+    }
+  ],
+  "Roblox Studio/4) Arquitectura Cliente-Servidor/4.2) Conexiones entre cliente y servidor/4.2.2) Tipos de conexiones": [
+    {
+      "title": "4.2.2.1) Cliente a servidor",
+      "content": "Nota: Para comprender como funciona la conexión entre cliente y servidor es necesario saber que es un [[4.2.1.1) RemoteEvent|RemoteEvent]].\n\nPara establecer una conexión con el servidor desde el cliente, necesitaremos un `LocalScript` dentro de una de las carpetas diseñadas para ejecutar este tipo de scripts (más información en [[4.1.1) LocalScript]]).\n\nDesde el `LocalScript`, tendrás que detectar cuándo ocurre una acción (como que una moneda sea tocada) para entonces enviar una señal al `RemoteEvent`:\n\n``` Lua\n-- En el LocalScript\nlocal replicatedStorage = game:GetService(\"ReplicatedStorage\")\nlocal coin = game:GetService(\"Workspace\").Coin\n\ncoin.Touched:Connect(function()\n\treplicatedStorage.OnCoinCollected.FireServer(coin) -- Suponiendo que tenemos un RemoteEvent llamado \"OnCoinCollected\"\nend)\n```\n\nEste código mandará una señal a `OnCoinCollected`, que será el nombre de un `RemoteEvent` que hayamos creado en `ReplicatedStorage`.\n\nYa hemos mandado la señal al `RemoteEvent`, pero tenemos que recibirla para poder llevar a cabo la acción que queramos realizar. Para ello:\n\n``` Lua\n-- En el script (normalmente dentro de ServerScriptService)\nlocal replicatedStorage = game:GetService(\"ReplicatedStorage\")\n\nreplicatedStorage.OnCoinCollected.OnServerEvent:Connect(function(_, coin)\n\tcoin.Transparency = 1 -- Hacemos la moneda invisible\nend)\n```\n\nLa señal `OnServerEvent` permite detectar cuándo un cliente ha enviado una señal al `RemoteEvent`. La función que se conecta a este evento siempre recibe como primer argumento al jugador que envió la señal, seguido de cualquier otro dato adicional. En este caso, usamos `_` para ignorar al jugador porque no lo estamos utilizando.\n"
+    }
+  ],
+  "Roblox Studio/EXTRAS": [
+    {
+      "title": "TODO",
+      "content": "Punto [[2.2.5.1) Qué son las señales]]\n\nPunto [[3.0.1) Introducción]]\n\nPunto [[4.2.1.2) RemoteFunction]]\n"
+    }
+  ]
+};</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
