@@ -7,6 +7,112 @@
   <meta name="description" content="Notas de Obsidian sobre Roblox Studio y Lua">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+<style>
+:root {
+  --bg: #0f1724;
+  --accent: #7dd3fc;
+  --muted: #9aa4b2;
+}
+
+body {
+  margin: 0;
+  background: #071021;
+  color: #e6eef6;
+  font-family: sans-serif;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Sidebar y contenido */
+  min-height: 100vh;
+}
+
+.sidebar {
+  padding: 14px;
+  background: #0b1220;
+  overflow: auto;
+}
+
+.content {
+  padding: 20px;
+  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+.sidebar {
+  padding: 14px;
+  background: #0b1220;
+  overflow: auto;
+}
+
+.brand {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.search input {
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+}
+
+#folders summary {
+  cursor: pointer;
+}
+
+.note-link {
+  display: block;
+  padding: 4px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.note-link:hover {
+  background: rgba(125, 211, 252, 0.08);
+  color: var(--accent);
+}
+
+.content {
+  padding: 20px;
+  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+.content header {
+  margin-bottom: 20px;
+}
+
+#article {
+  width: 100%;
+  max-width: 100%;
+}
+
+pre {
+  background: #071022;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 900px) {
+  body {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    max-height: 300px;
+  }
+}
+
+</style>
 </head>
 <body>
 <div class="app">
@@ -202,6 +308,74 @@
 };</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const foldersEl=document.getElementById('folders');
+  const articleEl=document.getElementById('article');
+  const titleEl=document.getElementById('title');
+  const searchEl=document.getElementById('search');
+  const clearEl=document.getElementById('clear');
+
+  // Extrae el último segmento y elimina números y paréntesis
+  function cleanName(str){
+    const last = str.split('/').pop();
+    return last.replace(/^\d+(\.\d+)*\)?\s*\)?\s*-?\s*/,'').replace(/^\d+\)\s*/,'');
+  }
+
+  function renderFolders(data){
+    foldersEl.innerHTML='';
+    Object.keys(data).sort().forEach(folder=>{
+      if(folder && folder!==''){
+        const details=document.createElement('details');
+        const summary=document.createElement('summary');
+        summary.textContent=cleanName(folder);
+        details.appendChild(summary);
+        data[folder].forEach(note=>{
+          const a=document.createElement('a');
+          a.href='#';
+          a.className='note-link';
+          a.textContent=cleanName(note.title);
+          a.onclick=()=>{renderNote(note);return false};
+          details.appendChild(a);
+        });
+        foldersEl.appendChild(details);
+      } else {
+        data[folder].forEach(note=>{
+          const a=document.createElement('a');
+          a.href='#';
+          a.className='note-link';
+          a.textContent=cleanName(note.title);
+          a.onclick=()=>{renderNote(note);return false};
+          foldersEl.appendChild(a);
+        });
+      }
+    });
+  }
+
+  function renderNote(note){
+    titleEl.textContent=cleanName(note.title);
+    articleEl.innerHTML=marked.parse(note.content);
+    hljs.highlightAll();
+  }
+
+  function searchNotes(q){
+    const results={};
+    Object.keys(NOTES).forEach(folder=>{
+      const matched=NOTES[folder].filter(n=>n.title.toLowerCase().includes(q)||n.content.toLowerCase().includes(q));
+      if(matched.length>0)results[folder]=matched;
+    });
+    renderFolders(results);
+  }
+
+  searchEl.addEventListener('input',e=>{
+    const q=e.target.value.trim().toLowerCase();
+    if(q==='') renderFolders(NOTES);
+    else searchNotes(q);
+  });
+  clearEl.onclick=()=>{searchEl.value='';renderFolders(NOTES)};
+
+  renderFolders(NOTES);
+});
+</script>
 </body>
 </html>
